@@ -11,5 +11,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80         # expose on 80 inside cluster
-    targetPort: 4499
+    targetPort: 5000
   type: ClusterIP
