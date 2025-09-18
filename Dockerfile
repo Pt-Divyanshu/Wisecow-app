@@ -1,27 +1,28 @@
-# Dockerfile
-FROM ubuntu:22.04
+# Use a lightweight Python 3 base image
+FROM python:3.11-slim
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    bash \
-    python3 \
-    fortune-mod \
-    cowsay \
-    curl \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Working directory
+# Set working directory
 WORKDIR /app
 
-# Copy application files
-COPY wisecow.sh /app/wisecow.sh
-COPY web_wrapper.py /app/web_wrapper.py
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        fortune-mod \
+        cowsay \
+        curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy application files
+COPY wisecow/wisecow.sh /app/wisecow.sh
+COPY wisecow/web_wrapper.py /app/web_wrapper.py
+
+# Make scripts executable
 RUN chmod +x /app/wisecow.sh /app/web_wrapper.py
 
-# Expose HTTP port
-EXPOSE 5000
+# Expose the port your app listens on
+EXPOSE 4499
 
+# Run the wrapper script by default
 CMD ["python3", "/app/web_wrapper.py"]
