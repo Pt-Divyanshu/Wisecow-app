@@ -22,6 +22,6 @@ COPY web_wrapper.py /app/web_wrapper.py
 RUN chmod +x /app/wisecow.sh /app/web_wrapper.py
 
 # Expose HTTP port
-EXPOSE 8080
+EXPOSE 5000
 
 CMD ["python3", "/app/web_wrapper.py"]
