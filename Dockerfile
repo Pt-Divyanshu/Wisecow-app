@@ -1,13 +1,14 @@
-# Use a lightweight Python 3 base image
-FROM python:3.11-slim
+# Use Minikube base image (preloaded, avoids internet fetch)
+FROM gcr.io/k8s-minikube/kicbase:v0.0.47
 
-# Set working directory
 WORKDIR /app
 
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         bash \
+        python3 \
+        python3-pip \
         fortune-mod \
         cowsay \
         curl \
@@ -21,8 +22,6 @@ COPY wisecow/web_wrapper.py /app/web_wrapper.py
 # Make scripts executable
 RUN chmod +x /app/wisecow.sh /app/web_wrapper.py
 
-# Expose the port your app listens on
 EXPOSE 5000
 
-# Run the wrapper script by default
 CMD ["python3", "/app/web_wrapper.py"]
