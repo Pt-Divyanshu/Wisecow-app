@@ -22,7 +22,7 @@ COPY wisecow/web_wrapper.py /app/web_wrapper.py
 RUN chmod +x /app/wisecow.sh /app/web_wrapper.py
 
 # Expose the port your app listens on
-EXPOSE 4499
+EXPOSE 5000
 
 # Run the wrapper script by default
 CMD ["python3", "/app/web_wrapper.py"]
