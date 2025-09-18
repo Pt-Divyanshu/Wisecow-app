@@ -1,0 +1,7 @@
+# k8s/cert-manager/cluster-issuer-selfsigned.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
