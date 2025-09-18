@@ -1,25 +1,27 @@
 # Dockerfile
 FROM ubuntu:22.04
 
-# noninteractive apt
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      bash \
-      curl \
-      socat \
-      fortune-mod \
-      cowsay && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    python3 \
+    fortune-mod \
+    cowsay \
+    curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy the app
+# Working directory
 WORKDIR /app
+
+# Copy application files
 COPY wisecow.sh /app/wisecow.sh
-RUN chmod +x /app/wisecow.sh
+COPY web_wrapper.py /app/web_wrapper.py
 
-# Expose the port used by wisecow (README says default 4499)
-EXPOSE 4499
+RUN chmod +x /app/wisecow.sh /app/web_wrapper.py
 
-# Run
-CMD [ "/app/wisecow.sh" ]
+# Expose HTTP port
+EXPOSE 8080
+
+CMD ["python3", "/app/web_wrapper.py"]
