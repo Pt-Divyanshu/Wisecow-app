@@ -17,17 +17,19 @@ spec:
     spec:
       containers:
       - name: wisecow
-        image: DOCKERHUB_USERNAME/wisecow:latest
+        image: DOCKERHUB_USERNAME/wisecow:latest # Replace with your Docker Hub username
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 4499
+        - containerPort: 5000  # <-- Changed from 4499 to 5000
         livenessProbe:
-          tcpSocket:
-            port: 4499
+          httpGet:             # <-- Use HTTP check instead of raw TCP
+            path: /
+            port: 5000
           initialDelaySeconds: 10
           periodSeconds: 15
         readinessProbe:
-          tcpSocket:
-            port: 4499
+          httpGet:             # <-- Use HTTP check instead of raw TCP
+            path: /
+            port: 5000
           initialDelaySeconds: 5
           periodSeconds: 10
